@@ -7,7 +7,7 @@ import storyController from './api/controllers/StoryController';
 const router = express.Router();
 
 router.post('/user/create', userController.create);
-router.get('/user/:userId?', userController.get);
+router.get('/user/:username?', userController.get);
 router.delete('/user:userId', userController.delete);
 
 router.post('/post/create', postController.create);

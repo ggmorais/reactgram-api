@@ -1,6 +1,7 @@
 import express from 'express';
-import routes from './routes';
 import cors from 'cors';
+import mongoose from 'mongoose';
+import routes from './routes';
 
 class App {
 
@@ -9,11 +10,19 @@ class App {
   constructor() {
     this.middlewares();
     this.routes();
+    this.database();
   }
 
   middlewares() {
     this.app.use(cors());
     this.app.use(express.json());
+  }
+
+  database() {
+    mongoose.connect(process.env.MONGO_SERVER, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
   }
 
   routes() {
