@@ -8,14 +8,14 @@ const router = express.Router();
 
 router.post('/user/create', userController.create);
 router.get('/user/:username?', userController.get);
-router.delete('/user:userId', userController.delete);
+router.delete('/user/:username?', userController.delete);
 
 router.post('/post/create', postController.create);
 router.get('/post/:postId', postController.get);
-router.delete('/post:postId', postController.delete);
+router.delete('/post/:postId', postController.delete);
 
 router.post('/story/create', storyController.create);
 router.get('/story/:storyId', storyController.get);
-router.delete('/story:storyId', storyController.delete);
+router.delete('/story/:storyId', storyController.delete);
 
 export default router;
