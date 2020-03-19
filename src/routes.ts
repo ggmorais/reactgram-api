@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.post('/user/create', userController.create);
 router.get('/user/:username?', userController.get);
+router.post('/user/follow', userController.follow);
+router.post('/user/disfollow', userController.disfollow);
 router.delete('/user/:username?', userController.delete);
 
 router.post('/post/create', postController.create);

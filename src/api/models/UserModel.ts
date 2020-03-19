@@ -1,10 +1,16 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+interface IUser extends Document {
+  _id: mongoose.Schema.Types.ObjectId;
+  username: string;
+  password: string;
+  followers?: Object[];
+  follwing?: Object[];
+  creationDate?: Date | string | number | undefined;
+}
 
 const userSchema = new mongoose.Schema({
-  _id: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    default: mongoose.Types.ObjectId() 
-  },
+  _id: mongoose.Schema.Types.ObjectId,
   fullname: { 
     type: String, 
     required: true, 
@@ -26,13 +32,14 @@ const userSchema = new mongoose.Schema({
   },
   followers: [
     {
-      type: String,
+      // type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     }
   ],
   following: [
     {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
     }
   ],
@@ -42,4 +49,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model<IUser>('User', userSchema);
