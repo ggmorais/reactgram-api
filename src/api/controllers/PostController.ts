@@ -3,7 +3,15 @@ import { Request, Response } from 'express';
 
 class PostController {
   async create(req: Request, res: Response) {
-    res.send('Post created!');
+    const { userId } = req.body;
+    const image = req.file;
+
+    // console.log(userId, req.file);
+
+    res.send('ok');
+    // const post = await new Post({
+    //   user: userId,
+    // });
   }
 
   async delete(req: Request, res: Response) {

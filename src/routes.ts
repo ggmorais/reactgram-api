@@ -1,5 +1,7 @@
 import express from 'express';
 
+import upload from './api/middlewares/upload';
+
 import userController from './api/controllers/UserController';
 import postController from './api/controllers/PostController';
 import storyController from './api/controllers/StoryController';
@@ -12,7 +14,7 @@ router.post('/user/follow', userController.follow);
 router.post('/user/disfollow', userController.disfollow);
 router.delete('/user/:username?', userController.delete);
 
-router.post('/post/create', postController.create);
+router.post('/post/create', upload.single('image'), postController.create);
 router.get('/post/:postId', postController.get);
 router.delete('/post/:postId', postController.delete);
 
