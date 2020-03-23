@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import multer from 'multer';
 import path from 'path';
 
@@ -7,7 +8,9 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     let ext = file.mimetype.split('/')[1];
-    cb(null, req.body.userId + '_post' + Date.now() + '.' + ext);
+    let fileName = new mongoose.Types.ObjectId() + '.' + ext;
+    cb(null, fileName);
+    // cb(null, req.body.userId + '_post' + Date.now() + '.' + ext);
   }
 })
 

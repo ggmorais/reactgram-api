@@ -8,16 +8,18 @@ class PostController {
     const { userId } = req.body;
     const image = req.file;
 
+    const postId = image.filename.split('.')[0];
+
     try {
       const post = await new Post({
-        _id: new mongoose.Types.ObjectId(),
+        _id: postId,
         user: userId,
         image: image.destination + '/' + image.filename,
         imageUrl: '/public/images/' + image.filename,
       }).save();
 
       res.json(post);
-      
+
     } catch(e) {
       res.status(500).json(e);
     }
@@ -31,7 +33,7 @@ class PostController {
     
       fs.exists(post.image, exist => {
         if (exist)
-          fs.unlink(post.image, _ => _);
+          fs.unlink(post.image, null);
       });
 
       const deleted = await Post.findByIdAndDelete(postId);
@@ -45,9 +47,10 @@ class PostController {
 
   async get(req: Request, res: Response) {
     const host = req.get('host');
-  
+    const { postId } = req.params;
+
     try {
-      const post = await Post.find().populate('user');
+      const post = await Post.find(postId && { _id: postId }).populate('user');
     
       res.json(post);
       
