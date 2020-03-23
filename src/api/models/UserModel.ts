@@ -8,10 +8,12 @@ interface IUserModel extends Document {
   follwing?: Object[];
   creationDate?: Date | string | number | undefined;
   marked?: Object[];
+  image?: string;
 }
 
 const userSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
+  image: String,
   fullname: { 
     type: String, 
     required: true, 

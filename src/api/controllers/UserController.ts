@@ -37,8 +37,8 @@ class UserController {
       const user = await User.find(req.params.username && {
         username: req.params.username
       })
-        .populate('followers', 'fullname username')
-        .populate('following', 'fullname username')
+        .populate('followers', '_id fullname username')
+        .populate('following', '_id fullname username')
   
       res.json(user);
     } catch(e) {
@@ -84,7 +84,7 @@ class UserController {
         _id: followedId
       }, {
         $pull: {
-          followers: [followerId]
+          followers: followerId
         }
       });
 
@@ -92,7 +92,7 @@ class UserController {
         _id: followerId
       }, {
         $pull: {
-          following: [followedId]
+          following: followedId
         }
       });
 
@@ -128,7 +128,7 @@ class UserController {
     try {
       const user = await User.findByIdAndUpdate(userId, {
         $pull: {
-          marked: [postId]
+          marked: postId
         }
       });
 

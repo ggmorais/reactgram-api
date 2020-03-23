@@ -30,10 +30,6 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  likes: {
-    type: Array,
-    default: [],
-  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -49,6 +45,12 @@ const postSchema = new mongoose.Schema({
         required: true,
       }
     },
+  ],
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
   ],
   shares: [
     {

@@ -50,10 +50,46 @@ class PostController {
     const { postId } = req.params;
 
     try {
-      const post = await Post.find(postId && { _id: postId }).populate('user');
+      const post = await Post.find(postId && { _id: postId })
+        .populate('user', '_id fullname username')
+        .populate('likes', '_id fullname username');
     
       res.json(post);
       
+    } catch(e) {
+      res.status(500).json(e);
+    }
+  }
+
+  async like(req: Request, res: Response) {
+    const { userId, postId } = req.body;
+
+    try {
+      const post = await Post.findByIdAndUpdate(postId, {
+        $addToSet: {
+          likes: [userId]
+        }
+      });
+
+      res.json(post);
+
+    } catch(e) {
+      res.status(500).json(e);
+    }
+  }
+
+  async disLike(req: Request, res: Response) {
+    const { userId, postId } = req.body;
+
+    try {
+      const post = await Post.findByIdAndUpdate(postId, {
+        $pull: {
+          likes: userId
+        }
+      });
+
+      res.json(post);
+
     } catch(e) {
       res.status(500).json(e);
     }
