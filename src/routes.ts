@@ -15,7 +15,7 @@ router.post('/user/disfollow', userController.disfollow);
 router.delete('/user/:username?', userController.delete);
 
 router.post('/post/create', upload.single('image'), postController.create);
-router.get('/post/:postId', postController.get);
+router.get('/post/:postId?', postController.get);
 router.delete('/post/:postId', postController.delete);
 
 router.post('/story/create', storyController.create);
