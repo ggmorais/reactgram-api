@@ -84,7 +84,7 @@ class UserController {
         _id: followedId
       }, {
         $pull: {
-          followers: followerId
+          followers: [followerId]
         }
       });
 
@@ -92,13 +92,47 @@ class UserController {
         _id: followerId
       }, {
         $pull: {
-          following: followedId
+          following: [followedId]
         }
       });
 
       res.json({
         done: true
       });
+
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  }
+
+  async mark(req: Request, res: Response) {
+    const { userId, postId } = req.body;
+
+    try {
+      const user = await User.findByIdAndUpdate(userId, {
+        $addToSet: {
+          marked: [postId]
+        }
+      });
+
+      res.json(user);
+
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  }
+
+  async unMark(req: Request, res: Response) {
+    const { userId, postId } = req.body;
+
+    try {
+      const user = await User.findByIdAndUpdate(userId, {
+        $pull: {
+          marked: [postId]
+        }
+      });
+
+      res.json(user);
 
     } catch (e) {
       res.status(500).json(e);

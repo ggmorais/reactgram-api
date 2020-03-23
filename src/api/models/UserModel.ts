@@ -7,6 +7,7 @@ interface IUserModel extends Document {
   followers?: Object[];
   follwing?: Object[];
   creationDate?: Date | string | number | undefined;
+  marked?: Object[];
 }
 
 const userSchema = new mongoose.Schema({
@@ -47,6 +48,12 @@ const userSchema = new mongoose.Schema({
     type: Date, 
     default: Date.now() 
   },
+  marked: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Post'
+    }
+  ]
 });
 
 const User: Model<IUserModel> = mongoose.model<IUserModel>('User', userSchema);
