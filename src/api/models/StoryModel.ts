@@ -1,6 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose, { Model, Document } from 'mongoose';
 
-const storyModel = new mongoose.Schema({
+interface IStoryModel extends Document {
+  _id: mongoose.Schema.Types.ObjectId;
+  user: mongoose.Schema.Types.ObjectId;
+  postDate?: Date;
+  image: String;
+  views: Object[] | [];
+}
+
+const storySchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   postDate: {
     type: Date,
@@ -23,4 +31,6 @@ const storyModel = new mongoose.Schema({
   }
 });
 
-export default mongoose.model('Story', storyModel);
+const StoryModel: Model<IStoryModel> = mongoose.model<IStoryModel>('Story', storySchema);
+
+export default StoryModel;
