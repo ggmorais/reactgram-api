@@ -8,7 +8,6 @@ import storyController from './api/controllers/StoryController';
 
 const router = express.Router();
 
-// Users
 router.post('/user/create', userController.create);
 router.get('/user/:username?', userController.get);
 router.post('/user/follow', userController.follow);
@@ -17,16 +16,14 @@ router.delete('/user/:username?', userController.delete);
 router.post('/user/mark', userController.mark);
 router.post('/user/unmark', userController.unMark);
 
-// Posts
 router.post('/post/create', upload.single('image'), postController.create);
 router.get('/post/:postId?', postController.get);
 router.delete('/post/:postId', postController.delete);
 router.post('/post/like', postController.like);
 router.post('/post/dislike', postController.disLike);
 
-// Stories
-router.post('/story/create', storyController.create);
-router.get('/story/:storyId', storyController.get);
+router.post('/story/create', upload.single('image'), storyController.create);
+router.get('/story/:storyId?', storyController.get);
 router.delete('/story/:storyId', storyController.delete);
 
 export default router;

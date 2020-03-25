@@ -5,7 +5,9 @@ interface IStoryModel extends Document {
   user: mongoose.Schema.Types.ObjectId;
   postDate?: Date;
   image: String;
+  imageUrl: String;
   views: Object[] | [];
+  createdAt?: Date | undefined;
 }
 
 const storySchema = new mongoose.Schema({
@@ -28,6 +30,12 @@ const storySchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+    expires: 60,
+    // expires: 3600 * 24 // 24 hours
   }
 });
 

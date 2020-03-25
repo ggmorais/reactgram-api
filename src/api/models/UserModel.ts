@@ -4,11 +4,11 @@ interface IUserModel extends Document {
   _id: mongoose.Schema.Types.ObjectId;
   username: string;
   password: string;
+  image?: string;
   followers?: Object[];
   follwing?: Object[];
-  creationDate?: Date | string | number | undefined;
   marked?: Object[];
-  image?: string;
+  creationDate?: Date | string | number | undefined;
 }
 
 const userSchema = new mongoose.Schema({
@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post'
     }
-  ]
+  ],
 });
 
 const User: Model<IUserModel> = mongoose.model<IUserModel>('User', userSchema);
