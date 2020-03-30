@@ -24,7 +24,10 @@ class App {
   }
 
   database() {
-    mongoose.connect(process.env.MONGO_SERVER, {
+    mongoose.connect('mongodb+srv://root:' + 
+    process.env.MONGO_PW + 
+    '@mongo-db-cekcg.mongodb.net/reactgram?retryWrites=true&w=majority',
+    {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
