@@ -2,6 +2,8 @@ import mongoose, { Document, Model } from 'mongoose';
 
 interface IUserModel extends Document {
   _id: mongoose.Schema.Types.ObjectId;
+  fullname: string;
+  email: string;
   username: string;
   password: string;
   image?: string;
@@ -19,6 +21,12 @@ const userSchema = new mongoose.Schema({
     required: true, 
     maxlength: 32, 
     minlength: 3 
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    minlength: 3,
   },
   username: {
     type: String,

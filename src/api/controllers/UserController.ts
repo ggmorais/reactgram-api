@@ -5,12 +5,12 @@ import mongoose from 'mongoose';
 
 class UserController {
   async create(req: Request, res: Response) {
-    const { fullname, username, password } = req. body;
+    const { email, fullname, username, password } = req. body;
 
     try {  
       const user = await new User({
         _id: new mongoose.Types.ObjectId(),
-        fullname, username, password
+        email, fullname, username, password
       }).save();
 
       res.json(user);
@@ -67,9 +67,7 @@ class UserController {
         }
       });
 
-      res.json({
-        done: true
-      });
+      res.status(201).send();
 
     } catch(e) {
       res.status(500).json(e);
@@ -96,9 +94,7 @@ class UserController {
         }
       });
 
-      res.json({
-        done: true
-      });
+      res.status(201).send();
 
     } catch (e) {
       res.status(500).json(e);

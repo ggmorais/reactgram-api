@@ -8,22 +8,22 @@ import storyController from './api/controllers/StoryController';
 
 const router = express.Router();
 
-router.post('/user/create', userController.create);
-router.get('/user/:username?', userController.get);
-router.post('/user/follow', userController.follow);
-router.post('/user/disfollow', userController.disfollow);
-router.delete('/user/:username?', userController.delete);
-router.post('/user/mark', userController.mark);
-router.post('/user/unmark', userController.unMark);
+router.post('/users/create', userController.create);
+router.get('/users/:username?', userController.get);
+router.post('/users/follow', userController.follow);
+router.post('/users/disfollow', userController.disfollow);
+router.delete('/users/:username?', userController.delete);
+router.post('/users/mark', userController.mark);
+router.post('/users/unmark', userController.unMark);
 
-router.post('/post/create', upload.single('image'), postController.create);
-router.get('/post/:postId?', postController.get);
-router.delete('/post/:postId', postController.delete);
-router.post('/post/like', postController.like);
-router.post('/post/dislike', postController.disLike);
+router.post('/posts/create', upload.single('image'), postController.create);
+router.get('/posts/:postId?', postController.get);
+router.delete('/posts/:postId', postController.delete);
+router.post('/posts/like', postController.like);
+router.post('/posts/dislike', postController.disLike);
 
-router.post('/story/create', upload.single('image'), storyController.create);
-router.get('/story/:storyId?', storyController.get);
-router.delete('/story/:storyId', storyController.delete);
+router.post('/stories/create', upload.single('image'), storyController.create);
+router.get('/stories/:storyId?', storyController.get);
+router.delete('/stories/:storyId', storyController.delete);
 
 export default router;

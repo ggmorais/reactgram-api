@@ -34,7 +34,7 @@ class App {
   }
 
   routes() {
-    this.app.use('/api', routes);
+    this.app.use('/', routes);
   }
 
 }
