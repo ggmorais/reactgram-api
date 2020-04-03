@@ -8,10 +8,18 @@ class App {
   app = express();
 
   constructor() {
+    this.headers();
     this.middlewares();
     this.routes();
     this.database();
     this.public();
+  }
+
+  headers() {
+    this.app.use((req, res, next) => {
+      res.set('Access-Control-Expose-Headers', 'Authorization,X-Total-Count');
+      next();
+    })
   }
 
   public() {

@@ -1,4 +1,5 @@
 import Post from '../models/PostModel';
+import User from '../models/UserModel';
 import mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import fs from 'fs';
@@ -47,15 +48,48 @@ class PostController {
 
   async get(req: Request, res: Response) {
     const host = req.get('host');
-    const { postId } = req.params;
+    const { username } = req.params;
 
     try {
-      const post = await Post.find(postId && { _id: postId })
+
+      const user = await User.findOne({ username });
+
+      const post = await Post.find((user && username) && { user: { _id: user._id } })
         .populate('user', '_id fullname username')
         .populate('likes', '_id fullname username');
     
       res.json(post);
       
+    } catch(e) {
+      res.status(500).json(e);
+    }
+  }
+
+  async list(req: Request, res: Response) {
+    const host = req.protocol + '://' + req.get('host');
+
+    const { username } = req.params;
+    const { page = 1 } = req.query;
+
+    try {
+      const user = await User.findOne({ username });
+      const total = await Post.find({ user: { _id: [user.following] } }).count();
+      const posts = await Post.find({ user: { _id: [user.following] } })
+        .skip((page - 1) * 5)
+        .limit(5)
+        .populate('user', '_id username image')
+
+      res.header('X-Total-Count', String(total));
+
+      res.json(posts.map(post => ({
+        _id: post._id,
+        user: post.user,
+        image: host + post.imageUrl,
+        date: post.postDate,
+        likes: post.likes,
+        shares: post.shares,
+      })));
+
     } catch(e) {
       res.status(500).json(e);
     }

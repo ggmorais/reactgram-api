@@ -8,7 +8,7 @@ interface IUserModel extends Document {
   password: string;
   image?: string;
   followers?: Object[];
-  follwing?: Object[];
+  following?: Object[];
   marked?: Object[];
   creationDate?: Date | string | number | undefined;
 }
