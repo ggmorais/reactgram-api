@@ -77,7 +77,8 @@ class PostController {
       const posts = await Post.find({ user: { _id: [user.following] } })
         .skip((page - 1) * 5)
         .limit(5)
-        .populate('user', '_id username image')
+        .populate('user', '_id username imageUrl')
+        .populate('likes', '_id username imageUrl')
 
       res.header('X-Total-Count', String(total));
 
@@ -99,16 +100,31 @@ class PostController {
     const { userId, postId } = req.body;
 
     try {
-      const post = await Post.findByIdAndUpdate(postId, {
-        $addToSet: {
-          likes: [userId]
+      const isLiked = await Post.findOne({
+        _id: postId,
+        likes: {
+          $in: [userId]
         }
       });
+    
+      if (isLiked) {
+        await Post.findByIdAndUpdate(postId, {
+          $pull: {
+            likes: userId
+          }
+        });
+      } else {
+        await Post.findByIdAndUpdate(postId, {
+          $addToSet: {
+            likes: [userId]
+          }
+        });
+      }
 
-      res.json(post);
+      res.status(201);
 
     } catch(e) {
-      res.status(500).json(e);
+      res.json(e);
     }
   }
 
