@@ -20,6 +20,7 @@ router.post('/users/unmark', userController.unMark);
 router.post('/posts/create', upload.single('image'), postController.create);
 router.get('/posts/:username?', postController.get);
 router.delete('/posts/:postId', postController.delete);
+router.post('/posts/comment', postController.comment);
 router.post('/posts/like', postController.like);
 router.post('/posts/dislike', postController.disLike);
 router.get('/posts/following/:username', postController.list);

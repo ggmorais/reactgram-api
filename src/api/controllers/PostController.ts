@@ -34,7 +34,7 @@ class PostController {
     
       fs.exists(post.image, exist => {
         if (exist)
-          fs.unlink(post.image, null);
+          fs.unlink(post.image, () => console.log(post.image + ' deleted'));
       });
 
       const deleted = await Post.findByIdAndDelete(postId);
@@ -79,6 +79,7 @@ class PostController {
         .limit(5)
         .populate('user', '_id username imageUrl')
         .populate('likes', '_id username imageUrl')
+        .populate('comments.user', '_id username')
 
       res.header('X-Total-Count', String(total));
 
@@ -89,8 +90,26 @@ class PostController {
         date: post.postDate,
         likes: post.likes,
         shares: post.shares,
+        comments: post.comments
       })));
 
+    } catch(e) {
+      res.status(500).json(e);
+    }
+  }
+
+  async comment(req: Request, res: Response) {
+    const { body, postId, userId } = req.body;
+
+    try {
+      const post = await Post.updateOne(
+        { _id: postId },
+        { $push: {
+          comments: { user: userId, body }
+        } }
+      );
+
+      res.status(201);
     } catch(e) {
       res.status(500).json(e);
     }
