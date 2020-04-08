@@ -11,6 +11,7 @@ interface IUserModel extends Document {
   following?: Object[];
   marked?: Object[];
   creationDate?: Date | string | number | undefined;
+  posts?: Object[] | [];
 }
 
 const userSchema = new mongoose.Schema({
@@ -41,6 +42,13 @@ const userSchema = new mongoose.Schema({
     maxlength: 32,
     minlength: 8,
   },
+  posts: [
+    {
+      // type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Post',
+    }
+  ],
   followers: [
     {
       // type: String,

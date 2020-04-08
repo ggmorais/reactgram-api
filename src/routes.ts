@@ -6,6 +6,7 @@ import userController from './api/controllers/UserController';
 import postController from './api/controllers/PostController';
 import storyController from './api/controllers/StoryController';
 import sessionController from './api/controllers/SessionController';
+import profileController from './api/controllers/ProfileController';
 
 const router = express.Router();
 
@@ -28,6 +29,8 @@ router.get('/posts/following/:username', postController.list);
 router.post('/stories/create', upload.single('image'), storyController.create);
 router.get('/stories/:storyId?', storyController.get);
 router.delete('/stories/:storyId', storyController.delete);
+
+router.get('/profile/:username', profileController.index);
 
 router.post('/session', sessionController.create);
 

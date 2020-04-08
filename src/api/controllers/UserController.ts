@@ -34,9 +34,10 @@ class UserController {
   async get(req: Request, res: Response) {
 
     try {
-      const user = await User.find(req.params.username && {
+      const user = await User.findOne(req.params.username && {
         username: req.params.username
       })
+        .select('_id username fullname followers following email creationDate marked')
         .populate('followers', '_id fullname username')
         .populate('following', '_id fullname username')
   

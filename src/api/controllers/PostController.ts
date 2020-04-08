@@ -19,6 +19,15 @@ class PostController {
         imageUrl: '/public/images/' + image.filename,
       }).save();
 
+      const user = await User.updateOne(
+        { _id: userId },
+        { $push: {
+          posts: [postId]
+        } }
+      );
+
+      console.log(user);
+
       res.json(post);
 
     } catch(e) {
