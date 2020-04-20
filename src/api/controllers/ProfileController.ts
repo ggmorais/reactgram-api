@@ -10,10 +10,17 @@ class ProfileController {
       const user = await User.findOne({ username })
         .select('-password')
         .populate('posts')
+        .populate('marked')
         .populate('following', '-password')
         .populate('followers', '-password')
 
-      res.json(user);
+      const { _doc }: any = user;
+
+      res.json({
+        ..._doc,
+        host: `${req.protocol}://${req.get('host')}`
+      });
+
     } catch(e) {
       res.status(500);
     }
